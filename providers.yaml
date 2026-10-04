@@ -1,0 +1,46 @@
+# Priority order. The router tries each provider's models before moving on.
+# Every model id below is on that provider's free tier. Do not add paid model ids.
+# api_key_required: false uses a placeholder key when the env var is unset (anonymous access).
+# api_key_env is the environment variable name. Put the secret in .env, never in this file.
+# api_key_env: null means the provider does not use a key.
+
+providers:
+  - id: groq
+    base_url: https://api.groq.com/openai/v1
+    api_key_env: GROQ_API_KEY
+    models: [openai/gpt-oss-120b, openai/gpt-oss-20b, qwen/qwen3.8-27b]
+    cooldown_seconds: 60
+
+  - id: openrouter
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+    models: [openrouter/free, openai/gpt-oss-120b:free, cohere/north-mini-code:free]
+    cooldown_seconds: 60
+    extra_headers:
+      HTTP-Referer: https://localhost
+      X-Title: coding-agent
+
+  - id: llm7
+    base_url: https://api.llm7.io/v1
+    api_key_env: LLM7_API_KEY
+    api_key_required: false
+    models: [gpt-oss:20b]
+    cooldown_seconds: 60
+
+  - id: kilo
+    base_url: https://api.kilo.ai/api/gateway
+    api_key_env: null
+    models: [kilo-auto/free]
+    cooldown_seconds: 60
+
+  - id: mistral
+    base_url: https://api.mistral.ai/v1
+    api_key_env: MISTRAL_API_KEY
+    models: [codestral-latest]
+    cooldown_seconds: 60
+
+  - id: gemini
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key_env: GEMINI_API_KEY
+    models: [gemini-3.8-flash]
+    cooldown_seconds: 60
